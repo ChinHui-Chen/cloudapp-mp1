@@ -1,14 +1,8 @@
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.lang.reflect.Array;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.HashSet;
-
+import java.io.*;
 
 public class MP1 {
     Random generator;
@@ -68,10 +62,10 @@ public class MP1 {
        
         // Get indexes.
         Integer[] indexes = getIndexes();
-        Map indexMap = new HashMap();
+        HashSet<Integer> indexMap = new HashSet<Integer>() ;
         for( int i=0 ; i<indexes.length ; i++)
         {
-          indexMap.put( indexes[i] , 1 );
+          indexMap.add( indexes[i] );
         }
 
         // Read each line.
@@ -80,7 +74,7 @@ public class MP1 {
           int i=0;
           for(String line; (line = br.readLine()) != null ; i++)
           {
-             if( indexMap.containsKey(i) )
+             if( indexMap.contains(i) )
              {  
                 // Splits(delimiter, trim, stopwords)
                 String[] list = line.split( delimiters );
