@@ -69,6 +69,7 @@ public class MP1 {
         }
 
         // Read each line.
+        HashMap<String, Integer> freqMap = new HashMap<String, Integer>();
         try( BufferedReader br = new BufferedReader(new FileReader(inputFileName)) )
         {
           int i=0;
@@ -80,29 +81,68 @@ public class MP1 {
                 String[] list = line.split( delimiters );
                 for(int j=0 ; j<list.length ; j++)
                 {
-                   String word = list[j].trim();
+                   String word = list[j].toLowerCase().trim();
                    if(! stopWordsSet.contains( word ) && word.length() >= 1 )
                    {
-                      System.out.println( word );     
+                      if( ! freqMap.containsKey(word) )
+                      {
+                         freqMap.put( word, 1 );
+                      }else
+                      {
+                         freqMap.put( word, freqMap.get(word)+1  );   
+                      }
                    }
                 }
              }
           }
         }
 
+        ValueComparator vc = new ValueComparator(freqMap);
+        TreeMap<String, Integer> sorted = new TreeMap<String, Integer>(vc);
+        sorted.putAll(freqMap);
+        int i=0;
+        for (String key : sorted.keySet()) {
+
+           if(i==20)
+              break;
+
+           ret[i] = key;
+           i++;
+        }
+
         return ret;
     }
 
-    public static void main(String[] args) throws Exception {
-        if (args.length < 1){
-            System.out.println("MP1 <User ID>");
+    static class ValueComparator implements Comparator<String> {
+       Map<String, Integer> base;
+
+       ValueComparator(Map<String, Integer> base) {
+          this.base = base;
+       }
+        
+       @Override
+       public int compare(String a, String b) {
+           Integer x = base.get(a);
+           Integer y = base.get(b);
+
+           if( x.equals(y) )
+           {
+              return -1 * a.compareTo(b); 
+           }
+           return -1 * x.compareTo(y);
         }
-        else {
-            String userName = args[0];
-            String inputFileName = "./input.txt";
-            MP1 mp = new MP1(userName, inputFileName);
-            String[] topItems = mp.process();
-            for (String item: topItems){
+    }
+
+    public static void main(String[] args) throws Exception {
+       if (args.length < 1){
+          System.out.println("MP1 <User ID>");
+        }
+       else {
+          String userName = args[0];
+          String inputFileName = "./input.txt";
+          MP1 mp = new MP1(userName, inputFileName);
+          String[] topItems = mp.process();
+          for (String item: topItems){
                 System.out.println(item);
             }
         }
