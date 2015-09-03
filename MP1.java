@@ -102,6 +102,7 @@ public class MP1 {
            if(i==20)
               break;
            ret[i] = key;
+           //System.out.println( key + ":" + sorted.get(key) );
            i++;
         }
 
@@ -122,7 +123,7 @@ public class MP1 {
 
            if( x.equals(y) )
            {
-              return -1 * a.compareTo(b); 
+              return a.compareTo(b); 
            }
            return -1 * x.compareTo(y);
         }

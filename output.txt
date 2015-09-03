@@ -9,12 +9,12 @@ film
 john
 disambiguation
 album
-river
 c
+river
 highway
 united
 south
 national
-university
 saint
+university
 song
